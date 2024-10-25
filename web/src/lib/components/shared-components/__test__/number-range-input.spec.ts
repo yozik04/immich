@@ -6,15 +6,22 @@ describe('NumberRangeInput component', () => {
   const user = userEvent.setup();
   let sut: RenderResult<NumberRangeInput>;
   let input: HTMLInputElement;
+  const props: { id: string; min: number; max: number; onInput: () => void; value: number | null } = $state({
+    id: '',
+    min: -90,
+    max: 90,
+    onInput: () => {},
+    value: null,
+  });
 
   beforeEach(() => {
-    sut = render(NumberRangeInput, { id: '', min: -90, max: 90, onInput: () => {} });
+    sut = render(NumberRangeInput, props);
     input = sut.getByRole('spinbutton') as HTMLInputElement;
   });
 
   it('updates value', async () => {
     expect(input.value).toBe('');
-    await act(() => sut.component.$set({ value: 10 }));
+    await act(() => (props.value = 10));
     expect(input.value).toBe('10');
   });
 

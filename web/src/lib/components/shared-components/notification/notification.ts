@@ -1,4 +1,4 @@
-import type { ComponentProps, ComponentType, SvelteComponent } from 'svelte';
+import type { ComponentProps, Component as ComponentType } from 'svelte';
 import { writable } from 'svelte/store';
 
 export enum NotificationType {
@@ -30,7 +30,7 @@ export type NotificationAction = DiscardAction | NoopAction;
 
 type Component<T extends ComponentType> = {
   type: T;
-  props: ComponentProps<InstanceType<T>>;
+  props: ComponentProps<T>;
 };
 
 type BaseNotificationOptions<T, R extends keyof T> = Partial<Omit<T, 'id'>> & Pick<T, R>;
@@ -41,10 +41,7 @@ export type ComponentNotificationOptions<T extends ComponentType> = BaseNotifica
   'component'
 >;
 
-export type ComponentNotification<T extends ComponentType = ComponentType<SvelteComponent>> = Omit<
-  Notification,
-  'message'
-> & {
+export type ComponentNotification<T extends ComponentType = ComponentType> = Omit<Notification, 'message'> & {
   component: Component<T>;
 };
 
